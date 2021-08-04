@@ -1,6 +1,8 @@
 import react, {useContext} from 'react';
 import DefaultContext from '../../stores/defaultContext'
 
+import {Home as S} from './styles';
+
 function Home () {
 
     const currentDefaultContext = useContext(DefaultContext);
