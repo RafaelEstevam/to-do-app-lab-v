@@ -1,7 +1,7 @@
 
-# to-do-app-lab-v
+# To do App
 
-Aplicação de TO DO List
+Aplicação de TO DO List para a matéria de LAB V de banco de dados FATEC 2021
 
 ## Aplicação JAVA Spring Boot
 
