@@ -8,16 +8,21 @@ import history from './services/history';
 
 import DefaultContext from './stores/defaultContext';
 
-import {API} from './services/api'
+import {API, decodeToken, getTokenInStorage} from './services/api'
 
 function App() {
 
   const [defaultContext, setDefaultContext] = useState({});
 
   useEffect(() => {
-    setDefaultContext({
-      applicationName: "React Base"
-    })
+    // console.log(decodeToken());
+    if(getTokenInStorage()){
+      setDefaultContext({
+        applicationName: "React Base",
+        userData: decodeToken()
+      })
+    }
+    
   }, [])
 
   return (
