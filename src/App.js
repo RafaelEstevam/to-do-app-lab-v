@@ -1,5 +1,4 @@
 import react, {useEffect, useState} from 'react';
-
 import { Router } from 'react-router-dom';
 import GlobalStyle from './styles/global';
 

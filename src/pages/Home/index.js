@@ -1,73 +1,91 @@
 import React, {useContext} from 'react';
 import DefaultContext from '../../stores/defaultContext';
+import { useSelector, useDispatch } from 'react-redux'
 
 import AppBar from '@material-ui/core/AppBar';
-import Button from '@material-ui/core/Button';
 import CameraIcon from '@material-ui/icons/PhotoCamera';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Grid from '@material-ui/core/Grid';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import Link from '@material-ui/core/Link';
 
-const useStyles = makeStyles((theme) => ({
-  icon: {
-    marginRight: theme.spacing(2),
-  },
-  heroContent: {
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(8, 0, 6),
-  },
-  heroButtons: {
-    marginTop: theme.spacing(4),
-  },
-  cardGrid: {
-    paddingTop: theme.spacing(8),
-    paddingBottom: theme.spacing(8),
-  },
-  card: {
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  cardMedia: {
-    paddingTop: '56.25%', // 16:9
-  },
-  cardContent: {
-    flexGrow: 1,
-  },
-  footer: {
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(6),
-  },
-}));
+const Counter = function(){
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  // agora a função de callback, que é executada em cada dispatch, 
+  // deve retornar state.counter e sate.name.
+  let counter = useSelector(state => state.counter)
+  let name = useSelector(state => state.name)
 
-export default function Album() {
+  const dispatch = useDispatch()
+
+  // repare que, apesar de estar definido em outro componente, temos 
+  // acesso ao name que está no Redux
+  return (
+    <div> 
+    <p>counter: {counter} do {name}</p>
+    <button 
+    	onClick={ () => dispatch({type: 'INCREMENTAR'})}> 
+    		Incrementar 
+    </button>
+    <button 
+    	onClick={ () => dispatch({type: 'DECREMENTAR'})}> 
+    		Decrementar 
+    </button>
+    <button 
+    	onClick={ () => dispatch({type: 'INCREMENTAR', parametro: 2})}> 
+    		Incrementar 
+    2</button>
+    <button 
+    	onClick={ () => dispatch({type: 'DECREMENTAR', parametro: 2})}> 
+    		Decrementar 
+    2</button>
+    </div>
+  )
+}
+
+const Name = function(){
+  let name = useSelector(state => state.name);
+  const dispatch = useDispatch();  
+
+  return (
+    <div> 
+      <input
+        type="text"
+        value={name}
+        onChange={ (e) => dispatch({
+        	type: 'ALTERAR', 
+        	parametro: e.target.value})}
+      />
+    </div>
+  )
+}
+
+function Album() {
+
+  // const dispatch = useDispatch();
   
-  const currentDefaultContext = useContext(DefaultContext);
-  const classes = useStyles();
+  // const currentDefaultContext = useContext(DefaultContext);
+  // const counter = useSelector(state => state.counter)
+  // const name = useSelector(state => state.name)
 
-  console.log(currentDefaultContext);
+
+  // console.log(counter);
   
   return (
-    <>
-      <AppBar position="relative">
-        <Toolbar>
-          <CameraIcon className={classes.icon} />
-          <Typography variant="h6" color="inherit" noWrap>
-            To do app
-          </Typography>
-        </Toolbar>
-      </AppBar>
+    // <>
+    //   <AppBar position="relative">
+    //     <Toolbar>
+    //       <CameraIcon />
+    //       <Typography variant="h6" color="inherit" noWrap>
+    //         To do app
+    //       </Typography>
+    //     </Toolbar>
+    //   </AppBar>
 
+    // </>
+    <>
+      <Name />
+      <Counter />
     </>
   );
 }
+
+export default Album;
