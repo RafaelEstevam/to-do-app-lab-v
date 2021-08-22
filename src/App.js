@@ -13,16 +13,16 @@ function App() {
 
   const [defaultContext, setDefaultContext] = useState({});
 
-  useEffect(() => {
-    // console.log(decodeToken());
-    if(getTokenInStorage()){
-      setDefaultContext({
-        applicationName: "React Base",
-        userData: decodeToken()
-      })
-    }
+  // useEffect(() => {
+  //   // console.log(decodeToken());
+  //   if(getTokenInStorage()){
+  //     setDefaultContext({
+  //       applicationName: "React Base",
+  //       userData: decodeToken()
+  //     })
+  //   }
     
-  }, [])
+  // }, [])
 
   return (
     <DefaultContext.Provider value={defaultContext}>

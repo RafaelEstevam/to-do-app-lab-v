@@ -1,91 +1,123 @@
-import React, {useContext} from 'react';
+import React, {useEffect, useState} from 'react';
 import DefaultContext from '../../stores/defaultContext';
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux';
+import {API} from '../../services/api';
 
-import AppBar from '@material-ui/core/AppBar';
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Grid,
+  Container,
+  Card,
+  CardContent
+} from '@material-ui/core'
 import CameraIcon from '@material-ui/icons/PhotoCamera';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 
-const Counter = function(){
-
-  // agora a função de callback, que é executada em cada dispatch, 
-  // deve retornar state.counter e sate.name.
-  let counter = useSelector(state => state.counter)
-  let name = useSelector(state => state.name)
-
-  const dispatch = useDispatch()
-
-  // repare que, apesar de estar definido em outro componente, temos 
-  // acesso ao name que está no Redux
+function ProgressBar({progress}){
   return (
-    <div> 
-    <p>counter: {counter} do {name}</p>
-    <button 
-    	onClick={ () => dispatch({type: 'INCREMENTAR'})}> 
-    		Incrementar 
-    </button>
-    <button 
-    	onClick={ () => dispatch({type: 'DECREMENTAR'})}> 
-    		Decrementar 
-    </button>
-    <button 
-    	onClick={ () => dispatch({type: 'INCREMENTAR', parametro: 2})}> 
-    		Incrementar 
-    2</button>
-    <button 
-    	onClick={ () => dispatch({type: 'DECREMENTAR', parametro: 2})}> 
-    		Decrementar 
-    2</button>
-    </div>
+    <div>{progress}</div>
   )
 }
 
-const Name = function(){
-  let name = useSelector(state => state.name);
-  const dispatch = useDispatch();  
-
+function Task({name, category, description, progress, status}) {
   return (
-    <div> 
-      <input
-        type="text"
-        value={name}
-        onChange={ (e) => dispatch({
-        	type: 'ALTERAR', 
-        	parametro: e.target.value})}
-      />
-    </div>
+    <Card>
+      <Typography>{name}</Typography>
+      <Typography>{category}</Typography>
+      <Typography>{description}</Typography>
+      <ProgressBar progress={progress}/>
+    </Card>
   )
 }
 
-function Album() {
+function CardCount ({flag, status}) {
 
-  // const dispatch = useDispatch();
-  
-  // const currentDefaultContext = useContext(DefaultContext);
-  // const counter = useSelector(state => state.counter)
-  // const name = useSelector(state => state.name)
+  const total = useSelector(state => state.task[flag]);
 
+  return (
+    <Card>
+      <CardContent>
+        <Typography>{status}</Typography>
+        <Typography>{total}</Typography>
+      </CardContent>
+    </Card>
+  )
+}
 
-  // console.log(counter);
+function Home() {
+
+  const dispatch = useDispatch();
+  const tasksData = useSelector(state => state.task);
+  const [taskList, setTaskList] = useState([]);
+
+  // console.log(tasksData);
+
+  // const handleAddTask = () => {
+  //   dispatch({type: 'ADD_TASK', count: 1});
+  // }
+
+  // const handleRemoveTask = () => {
+  //   dispatch({type: 'REMOVE_TASK', count: 1});
+  // }
+
+  useEffect(() => {
+    API.get("/task/all").then((response) => {
+      setTaskList(response.data);
+      dispatch({type: 'ADD_TASK', count: response.data.length});
+    })
+  }, []);
+
+  // useEffect(() => {
+  //   console.log(tasksData);
+  // }, [tasksData])
   
   return (
-    // <>
-    //   <AppBar position="relative">
-    //     <Toolbar>
-    //       <CameraIcon />
-    //       <Typography variant="h6" color="inherit" noWrap>
-    //         To do app
-    //       </Typography>
-    //     </Toolbar>
-    //   </AppBar>
-
-    // </>
     <>
-      <Name />
-      <Counter />
+      
+      <AppBar position="relative">
+        <Toolbar>
+          <CameraIcon />
+          <Typography variant="h6" color="inherit" noWrap>
+            To do app
+          </Typography>
+        </Toolbar>
+      </AppBar>
+
+      {/* {tasksData.totalTasks}
+      <Grid item xs={12}>
+        <button onClick={() => handleAddTask()}>Add</button>
+        <button onClick={() => handleRemoveTask()}>Remove</button>
+      </Grid> */}
+
+      <Container>
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={3}>
+            <CardCount flag={'totalTasks'} />
+          </Grid>
+          <Grid item xs={12} md={3}>
+            <CardCount flag={'toDoTasks'} total={tasksData.toDoTasks} />
+          </Grid>
+          <Grid item xs={12} md={3}>
+            <CardCount flag={'doingTasks'} total={tasksData.doingTasks} />
+          </Grid>
+          <Grid item xs={12} md={3}>
+            <CardCount flag={'finishTasks'} total={tasksData.finishTasks} />
+          </Grid>
+        </Grid>
+      </Container>
+      <Container>
+        <Grid container spacing={3}>
+          {taskList?.map((item) => (
+            <Grid item xs={2}>
+              <Task name={item.title} />
+            </Grid>
+          ))}
+        </Grid>
+      </Container>
+      
     </>
   );
 }
 
-export default Album;
+export default Home;

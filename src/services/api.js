@@ -3,6 +3,7 @@ import axios from 'axios';
 const API = axios.create({
   baseURL: process.env.REACT_APP_API,
   headers: {
+    'Authorization': 'eyJhbGciOiJIUzUxMiJ9.eyJ1c2VyRGV0YWlscyI6IntcImVtYWlsXCI6XCJhZG1pblwiLFwicGFzc3dvcmRcIjpudWxsLFwicGVybWlzc2lvblwiOlwiUk9MRV9BRE1JTlwiLFwidG9rZW5cIjpudWxsfSIsImlzcyI6ImJyLmdvdi5zcC5mYXRlYyIsInN1YiI6ImFkbWluIiwiZXhwIjoxNjI5NjY1NDI3fQ.gN2nPx0WqxXKeHAIXLzSd-o9NOeeELXm7qhYFLVddylr1q9UeyS5OioUh28ZlfT_bAkkj_m3vyvh5Eymz_aBkA',
     'Content-Type': 'application/json',
     Accept: 'application/json',
 
