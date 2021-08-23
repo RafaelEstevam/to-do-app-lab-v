@@ -29,7 +29,13 @@ const data = [
 const ListView = () => {
     return (
         <>
-            <DataTable columns={columns} data={data} title="Lista de tarefas" />
+            <DataTable
+                columns={columns}
+                data={data}
+                title="Lista de tarefas"
+                pagination
+                selectableRows
+            />
         </>
     );
 }
