@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import clsx from 'clsx';
-// import styled from 'styled-components';
-
 import { makeStyles } from '@material-ui/core/styles';
+
+import {HeaderStyle} from '../styles/header';
 
 import Header from '../components/header.component';
 
@@ -65,27 +65,34 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function TemplateDefault({ children }) {
-
-  const classes = useStyles();
+export default function PersistentDrawerLeft({children}) {
+  const classes = HeaderStyle();
   const [open, setOpen] = useState(false);
 
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
+
   return (
-    <>
-      <Header open={open} setOpen={setOpen} />
+    <div className={classes.root}>
+      <Header 
+        open={open}
+        handleDrawerOpen={handleDrawerOpen}
+        handleDrawerClose={handleDrawerClose}
+      />
+      
       <main
         className={clsx(classes.content, {
           [classes.contentShift]: open,
         })}
       >
         <div className={classes.drawerHeader} />
-        <div>
-          <p>teste</p>
-          {children}
-        </div>
+        {children}
       </main>
-    </>
+    </div>
   );
 }
-
-export default TemplateDefault;
