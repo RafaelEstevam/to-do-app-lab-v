@@ -44,7 +44,7 @@ const Header = ({open, handleDrawerOpen, handleDrawerClose}) => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            Persistent drawer
+            To do App
           </Typography>
         </Toolbar>
       </AppBar>
