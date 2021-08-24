@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import clsx from 'clsx';
 
-import {HeaderStyle} from '../styles/header';
+import { HeaderStyle } from 'styles/header';
 
-import Header from '../components/header.component';
+import Header from 'components/header.component';
 
-export default function PersistentDrawerLeft({children}) {
+export default function PersistentDrawerLeft({ children }) {
   const classes = HeaderStyle();
   const [open, setOpen] = useState(false);
 
@@ -19,12 +19,12 @@ export default function PersistentDrawerLeft({children}) {
 
   return (
     <div className={classes.root}>
-      <Header 
+      <Header
         open={open}
         handleDrawerOpen={handleDrawerOpen}
         handleDrawerClose={handleDrawerClose}
       />
-      
+
       <main
         className={clsx(classes.content, {
           [classes.contentShift]: open,
