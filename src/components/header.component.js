@@ -68,6 +68,18 @@ const Header = ({open, handleDrawerOpen, handleDrawerClose}) => {
           <ListItemIcon>
             <InboxIcon />
           </ListItemIcon>
+          <ListItemText primary={"Dashboard"} />
+        </ListItem>
+        <ListItem button>
+          <ListItemIcon>
+            <InboxIcon />
+          </ListItemIcon>
+          <ListItemText primary={"Kanban"} />
+        </ListItem>
+        <ListItem button>
+          <ListItemIcon>
+            <InboxIcon />
+          </ListItemIcon>
           <ListItemText primary={"Tarefas"} />
         </ListItem>
         <ListItem button>
