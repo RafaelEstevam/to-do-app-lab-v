@@ -12,6 +12,7 @@ import {
   Container,
   Card,
   CardContent,
+  Box,
   Button,
   Drawer,
   List,
@@ -102,27 +103,43 @@ function Home() {
 
   return (
     <>
-      <Container>
-        <Grid container>
-          <Grid item xs={12}>
-            <p>teste</p>
-          </Grid>
+      <Grid container spacing={3}>
+        <Grid item lg={3} sm={6} xl={3} xs={12}>
+          <Card>
+            <CardContent>
+              Teste
+            </CardContent>
+          </Card>
         </Grid>
-      </Container>
+        <Grid item lg={3} sm={6} xl={3} xs={12}>
+          <Card>
+            <CardContent>
+              Teste
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item lg={3} sm={6} xl={3} xs={12}>
+          <Card>
+            <CardContent>
+              Teste
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item lg={3} sm={6} xl={3} xs={12}>
+          <Card>
+            <CardContent>
+              Teste
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
 
       {/* <AppBar position="relative">
         <Toolbar style={{justifyContent: 'space-between'}}>
-          <div>
-            <Typography variant="h6" color="inherit" noWrap>
-              To do app
-            </Typography>
+          <div> <Typography variant="h6" color="inherit" noWrap>   To do app </Typography>
           </div>
           
-          <div style={{display: 'flex'}}>
-            <TaskCount flag={'totalTasks'} status="Total" />
-            <TaskCount flag={'toDoTasks'} status="To Do"/>
-            <TaskCount flag={'doingTasks'} status="Doing"/>
-            <TaskCount flag={'finishTasks'} status="Finish"/>
+          <div style={{display: 'flex'}}> <TaskCount flag={'totalTasks'} status="Total" /> <TaskCount flag={'toDoTasks'} status="To Do"/> <TaskCount flag={'doingTasks'} status="Doing"/> <TaskCount flag={'finishTasks'} status="Finish"/>
           </div>
           <Button color="default" variant="outlined">+ ADD Task</Button>
         </Toolbar>
@@ -136,27 +153,20 @@ function Home() {
 
       {/* <Container>
         <Grid container spacing={3}>
-          <Grid item xs={12} md={3}>
-            <CardCount flag={'totalTasks'} />
+          <Grid item xs={12} md={3}> <CardCount flag={'totalTasks'} />
           </Grid>
-          <Grid item xs={12} md={3}>
-            <CardCount flag={'toDoTasks'} total={tasksData.toDoTasks} />
+          <Grid item xs={12} md={3}> <CardCount flag={'toDoTasks'} total={tasksData.toDoTasks} />
           </Grid>
-          <Grid item xs={12} md={3}>
-            <CardCount flag={'doingTasks'} total={tasksData.doingTasks} />
+          <Grid item xs={12} md={3}> <CardCount flag={'doingTasks'} total={tasksData.doingTasks} />
           </Grid>
-          <Grid item xs={12} md={3}>
-            <CardCount flag={'finishTasks'} total={tasksData.finishTasks} />
+          <Grid item xs={12} md={3}> <CardCount flag={'finishTasks'} total={tasksData.finishTasks} />
           </Grid>
         </Grid>
       </Container>
 
       <Container>
         <Grid container spacing={3}>
-          {taskList?.map((item) => (
-            <Grid item xs={2}>
-              <Task name={item.title} />
-            </Grid>
+          {taskList?.map((item) => ( <Grid item xs={2}>   <Task name={item.title} /> </Grid>
           ))}
         </Grid>
       </Container> */}
