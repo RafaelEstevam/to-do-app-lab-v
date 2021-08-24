@@ -32,7 +32,7 @@ const ListView = () => {
             <DataTable
                 columns={columns}
                 data={data}
-                title="Lista de tarefas"
+                title="Categorias"
                 pagination
                 selectableRows
             />

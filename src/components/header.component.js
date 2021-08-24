@@ -65,12 +65,12 @@ const Header = ({open, handleDrawerOpen, handleDrawerClose}) => {
       </div>
       <Divider />
       <List>
-        <ListItem button onClick={() => {history.push("/dashboard")}}>
+        {/* <ListItem button onClick={() => {history.push("/dashboard")}}>
           <ListItemIcon>
             <InboxIcon />
           </ListItemIcon>
           <ListItemText primary={"Dashboard"} />
-        </ListItem>
+        </ListItem> */}
         <ListItem button onClick={() => {history.push("/kanban")}}>
           <ListItemIcon>
             <InboxIcon />
