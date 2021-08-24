@@ -1,5 +1,5 @@
 import react from 'react';
-
+import {useHistory, Link, Redirect} from 'react-router-dom';
 import clsx from 'clsx';
 import { useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -22,6 +22,7 @@ import {HeaderStyle} from '../styles/header';
 
 const Header = ({open, handleDrawerOpen, handleDrawerClose}) => {
 
+  const history = useHistory();
   const classes = HeaderStyle();
   const theme = useTheme();
 
@@ -64,25 +65,25 @@ const Header = ({open, handleDrawerOpen, handleDrawerClose}) => {
       </div>
       <Divider />
       <List>
-        <ListItem button>
+        <ListItem button onClick={() => {history.push("/dashboard")}}>
           <ListItemIcon>
             <InboxIcon />
           </ListItemIcon>
           <ListItemText primary={"Dashboard"} />
         </ListItem>
-        <ListItem button>
+        <ListItem button onClick={() => {history.push("/kanban")}}>
           <ListItemIcon>
             <InboxIcon />
           </ListItemIcon>
           <ListItemText primary={"Kanban"} />
         </ListItem>
-        <ListItem button>
+        <ListItem button onClick={() => {history.push("/tasks")}}>
           <ListItemIcon>
             <InboxIcon />
           </ListItemIcon>
           <ListItemText primary={"Tarefas"} />
         </ListItem>
-        <ListItem button>
+        <ListItem button onClick={() => {history.push("/categories")}}>
           <ListItemIcon>
             <InboxIcon />
           </ListItemIcon>
