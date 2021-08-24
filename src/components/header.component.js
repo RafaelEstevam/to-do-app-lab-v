@@ -2,6 +2,7 @@ import react from 'react';
 import {useHistory, Link, Redirect} from 'react-router-dom';
 import clsx from 'clsx';
 import { useTheme } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -18,6 +19,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 
+import {resetStorage} from 'services/api';
+
 import {HeaderStyle} from '../styles/header';
 
 const Header = ({open, handleDrawerOpen, handleDrawerClose}) => {
@@ -25,6 +28,11 @@ const Header = ({open, handleDrawerOpen, handleDrawerClose}) => {
   const history = useHistory();
   const classes = HeaderStyle();
   const theme = useTheme();
+
+  const handleLogout = () => {
+    resetStorage()
+    history.push("/");
+  }
 
   return (
     <>
@@ -34,19 +42,25 @@ const Header = ({open, handleDrawerOpen, handleDrawerClose}) => {
           [classes.appBarShift]: open,
         })}
       >
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            className={clsx(classes.menuButton, open && classes.hide)}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap>
-            To do App
-          </Typography>
+        <Toolbar style={{display: 'flex', justifyContent: 'space-between'}}>
+          <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              edge="start"
+              className={clsx(classes.menuButton, open && classes.hide)}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="h6" noWrap>
+              To do App
+            </Typography>
+          </div>
+          
+          <Button color="secondary" variant="contained" onClick={() => {handleLogout()}}>
+            Logout
+          </Button>
         </Toolbar>
       </AppBar>
       <Drawer

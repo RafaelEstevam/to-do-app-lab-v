@@ -1,5 +1,7 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
+
+import {getTokenInStorage} from 'services/api'
 
 import Dashboard from './pages/Dashboard'
 import Login from './pages/Login'
@@ -10,7 +12,10 @@ import CategoriesList from './pages/CategoriesList'
 import DefaultLayout from './templates/default'
 
 const PrivateRoute = ({ component: Component, ...attrs }) => {
-  return (
+
+  const token = getTokenInStorage();
+
+  return token ? (
     <Route
       {...attrs}
       render={(props) => (
@@ -20,6 +25,8 @@ const PrivateRoute = ({ component: Component, ...attrs }) => {
       )}
     >
     </Route>
+  ) : (
+    <Redirect to="/404" />
   )
 }
 
