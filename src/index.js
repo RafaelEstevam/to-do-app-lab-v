@@ -3,13 +3,21 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import { Provider } from 'react-redux';
 import reduxStore from './stores/reduxStore';
+import { SnackbarProvider } from 'notistack';
 
 const store = reduxStore;
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <SnackbarProvider
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'center',
+        }}
+      >
+        <App />
+      </SnackbarProvider>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')

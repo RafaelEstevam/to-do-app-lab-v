@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import {useHistory} from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { useSnackbar } from 'notistack';
 import axios from 'axios';
 import { setTokenInStorage, decodeToken } from '../../services/api';
 
@@ -35,11 +36,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignIn() {
+  const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatch();
   const classes = useStyles();
   const history = useHistory();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+
+  const handleClick = () => {
+};
 
   const handleSubmit = async () => {
     const data ={
@@ -54,7 +59,7 @@ export default function SignIn() {
     }).then(() => {
       history.push("/kanban");
     }).catch((e) => {
-      console.log(e.message);
+      enqueueSnackbar('Não foi possível fazer login. Tente novamente.', {variant: "error"});
     });
     
   }

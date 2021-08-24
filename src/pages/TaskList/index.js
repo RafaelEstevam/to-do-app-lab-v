@@ -1,6 +1,7 @@
-import react from 'react';
+import react, {useEffect} from 'react';
 
-import DataTable from '../../components/table.component';
+import DataTable from 'components/table.component';
+import {API} from 'services/api';
 
 const columns = [
     {
@@ -27,6 +28,15 @@ const data = [
 ];
 
 const ListView = () => {
+
+    useEffect(() => {
+        API.get('/task/all').then((response) => {
+            console.log(response);
+        }).catch((e) => {
+
+        })
+    }, [])
+
     return (
         <>
             <DataTable
