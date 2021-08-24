@@ -3,7 +3,7 @@ import axios from 'axios';
 const API = axios.create({
   baseURL: process.env.REACT_APP_API,
   headers: {
-    'Authorization': 'eyJhbGciOiJIUzUxMiJ9.eyJ1c2VyRGV0YWlscyI6IntcImVtYWlsXCI6XCJhZG1pblwiLFwicGFzc3dvcmRcIjpudWxsLFwicGVybWlzc2lvblwiOlwiUk9MRV9BRE1JTlwiLFwidG9rZW5cIjpudWxsfSIsImlzcyI6ImJyLmdvdi5zcC5mYXRlYyIsInN1YiI6ImFkbWluIiwiZXhwIjoxNjI5NjY1NDI3fQ.gN2nPx0WqxXKeHAIXLzSd-o9NOeeELXm7qhYFLVddylr1q9UeyS5OioUh28ZlfT_bAkkj_m3vyvh5Eymz_aBkA',
+    'Authorization': localStorage.getItem("token"),
     'Content-Type': 'application/json',
     Accept: 'application/json',
 
@@ -18,17 +18,26 @@ const getTokenInStorage = () => {
   return localStorage.getItem("token");
 }
 
-function decodeToken () {
-  const token = localStorage.getItem("token");
-
+function decodeToken (token) {
   var base64Url = token.split('.')[1];
   var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
   var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
       return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
   }).join(''));
 
+  const data = JSON.parse(JSON.parse(jsonPayload).userDetails);
+
+  localStorage.setItem("username", data.email);
+  localStorage.setItem("permission", data.permission);
+
   return JSON.parse(JSON.parse(jsonPayload).userDetails);
 
 };
 
-export { API, setTokenInStorage, getTokenInStorage, decodeToken };
+function resetStorage() {
+  localStorage.removeItem("token");
+  localStorage.removeItem("username");
+  localStorage.removeItem("permission");
+}
+
+export { API, setTokenInStorage, getTokenInStorage, decodeToken, resetStorage };

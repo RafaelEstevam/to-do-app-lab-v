@@ -7,8 +7,6 @@ import history from './services/history';
 
 import DefaultContext from './stores/defaultContext';
 
-import {API, decodeToken, getTokenInStorage} from './services/api'
-
 function App() {
 
   const [defaultContext, setDefaultContext] = useState({});

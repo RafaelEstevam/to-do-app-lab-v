@@ -1,5 +1,12 @@
 import { createStore, combineReducers } from 'redux';
 
+const token = "";
+
+const decode = {
+    email: "",
+    permission: ""
+}
+
 const tasks = {
     totalTasks: 0,
     toDoTasks: 0,
@@ -8,6 +15,29 @@ const tasks = {
 };
 
 const taskList = [];
+
+function decodeReducer(state = decode, action){
+    const data = action.decode;
+
+    switch(action.type){
+        case 'SET_DECODE':
+            state = {...state, ...data};
+            return state;
+        default:
+            return state;
+    }
+}
+
+function setTokenReducer(state = token, action){
+    const hash = action.token;
+    switch(action.type){
+        case 'SET_TOKEN':
+            state = hash;
+            return state;
+        default:
+            return state;
+    }
+}
 
 function taskListReducer(state = taskList, action){
     const list = action.list;
@@ -45,6 +75,8 @@ function tasksReducer(state = tasks, action){
 }
 
 export default createStore(combineReducers({
+    decode: decodeReducer,
+    token: setTokenReducer,
     task: tasksReducer,
     taskList: taskListReducer
 }));

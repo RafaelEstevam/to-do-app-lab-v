@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import {useHistory} from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import { API, setTokenInStorage } from '../../services/api';
+import { useSelector, useDispatch } from 'react-redux';
+import axios from 'axios';
+import { setTokenInStorage, decodeToken } from '../../services/api';
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -33,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignIn() {
+  const dispatch = useDispatch();
   const classes = useStyles();
   const history = useHistory();
   const [email, setEmail] = useState();
@@ -43,13 +46,17 @@ export default function SignIn() {
       email,
       password
     }
-    try{
-      const response = await API.post("/token", data);
+
+    axios.post(process.env.REACT_APP_API + '/token', data).then((response) => {
+      dispatch({type: 'SET_TOKEN', token: response.data.token});
+      dispatch({type: 'SET_DECODE', decode: decodeToken(response.data.token)});
       setTokenInStorage(response.data.token);
-      history.push("/home");
-    }catch(e){
-      console.log(e.message)
-    }
+    }).then(() => {
+      history.push("/kanban");
+    }).catch((e) => {
+      console.log(e.message);
+    });
+    
   }
 
   return (
