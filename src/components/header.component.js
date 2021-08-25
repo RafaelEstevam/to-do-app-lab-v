@@ -16,8 +16,11 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+
+import DashboardIcon from '@material-ui/icons/Dashboard';
+import ListAltIcon from '@material-ui/icons/ListAlt';
+import LocalOfferIcon from '@material-ui/icons/LocalOffer';
+import GroupIcon from '@material-ui/icons/Group';
 
 import {resetStorage} from 'services/api';
 
@@ -87,21 +90,27 @@ const Header = ({open, handleDrawerOpen, handleDrawerClose}) => {
         </ListItem> */}
         <ListItem button onClick={() => {history.push("/kanban")}}>
           <ListItemIcon>
-            <InboxIcon />
+            <DashboardIcon />
           </ListItemIcon>
           <ListItemText primary={"Kanban"} />
         </ListItem>
         <ListItem button onClick={() => {history.push("/tasks")}}>
           <ListItemIcon>
-            <InboxIcon />
+            <ListAltIcon />
           </ListItemIcon>
           <ListItemText primary={"Tarefas"} />
         </ListItem>
         <ListItem button onClick={() => {history.push("/categories")}}>
           <ListItemIcon>
-            <InboxIcon />
+            <LocalOfferIcon />
           </ListItemIcon>
           <ListItemText primary={"Categorias"} />
+        </ListItem>
+        <ListItem button onClick={() => {history.push("/categories")}}>
+          <ListItemIcon>
+            <GroupIcon />
+          </ListItemIcon>
+          <ListItemText primary={"Usuários"} />
         </ListItem>
       </List>
       <Divider />

@@ -3,7 +3,7 @@ import { useHistory } from 'react-router';
 import { useSnackbar } from 'notistack';
 import DataTable from 'components/table.component';
 import { API } from 'services/api';
-import {Button} from '@material-ui/core';
+import {Button, Card} from '@material-ui/core';
 import ControlPointIcon from '@material-ui/icons/ControlPoint';
 
 const columns = [
@@ -73,19 +73,21 @@ const ListView = () => {
     }, []);
 
     return (
-        <DataTable
-            columns={columns}
-            data={data}
-            title="Lista de tarefas"
-            pagination
-            pointerOnHover
-            onRowClicked={(row) => handleGoToTask(row)}
-            actions={
-                <Button startIcon={<ControlPointIcon />} variant="contained" color="primary" onClick={e => handleGoToNew()}>
-                    Nova tarefa
-                </Button>
-            }
-        />
+        <Card>
+            <DataTable
+                columns={columns}
+                data={data}
+                title="Lista de tarefas"
+                pagination
+                pointerOnHover
+                onRowClicked={(row) => handleGoToTask(row)}
+                actions={
+                    <Button startIcon={<ControlPointIcon />} variant="contained" color="primary" onClick={e => handleGoToNew()}>
+                        Nova tarefa
+                    </Button>
+                }
+            />
+        </Card>
     );
 }
 
