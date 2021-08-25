@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Box,
   Button,
@@ -7,33 +7,32 @@ import {
   CardHeader,
   Divider,
   Grid,
-  TextField
+  TextField,
+  Slider,
+  Typography
 } from '@material-ui/core';
+import { useSnackbar } from 'notistack';
 
-const states = [
-  {
-    value: 'alabama',
-    label: 'Alabama'
-  },
-  {
-    value: 'new-york',
-    label: 'New York'
-  },
-  {
-    value: 'san-francisco',
-    label: 'San Francisco'
-  }
-];
+import {API} from 'services/api';
 
-const CrudView = (props) => {
-  const [values, setValues] = useState({
-    firstName: 'Katarina',
-    lastName: 'Smith',
-    email: 'demo@devias.io',
-    phone: '',
-    state: 'Alabama',
-    country: 'USA'
-  });
+import Select from 'components/select.component';
+
+const status = [
+  {label: 'Para fazer', value: 'To do'},
+  {label: 'Em progresso', value: 'In progress'},
+  {label: 'Bloqueadas', value: 'Blocked'},
+  {label: 'Concluidas', value: 'Finish'},
+]
+
+const TaskVkew = (props) => {
+  const [values, setValues] = useState({});
+  const [slideValue, setSlideValue] = useState(0);
+  const { enqueueSnackbar } = useSnackbar();
+
+
+  const handleChangeSlide = (event, newValue) => {
+    setSlideValue(newValue);
+  };
 
   const handleChange = (event) => {
     setValues({
@@ -42,10 +41,35 @@ const CrudView = (props) => {
     });
   };
 
+  const handleOnSubmit = (e) => {
+    e.preventDefault();
+
+    const data = {
+      title: values.title,
+      category: {
+        id: values.category
+      },
+      profile: {
+        id: values.profile
+      },
+      description: values.description,
+      status: values.status,
+      progress: slideValue,
+      deadline: values.deadline
+    }
+
+    API.post('/task/new', data).then((response) => {
+      enqueueSnackbar('Salvo com sucesso', {variant: "success"});
+    }).catch((e) => {
+      enqueueSnackbar('Não foi possível fazer a consulta', {variant: "error"});
+    })
+  }
+
   return (
     <form
       autoComplete="off"
       noValidate
+      onSubmit={(e) => handleOnSubmit(e)}
       {...props}
     >
       <Card>
@@ -62,71 +86,67 @@ const CrudView = (props) => {
             <Grid item md={6} xs={12}>
               <TextField
                 fullWidth
-                label="First name"
-                name="firstName"
+                label="Título"
+                name="title"
                 onChange={handleChange}
                 required
-                value={values.firstName}
+                value={values.title}
                 variant="outlined"
               />
             </Grid>
             <Grid item md={6} xs={12}>
+              <Typography>
+                Progresso: {`${slideValue}`} %
+              </Typography>
+              <Slider
+                value={slideValue}
+                onChange={handleChangeSlide}
+                aria-labelledby="continuous-slider"
+                min={0}
+                max={100}
+              />
+            </Grid>
+            <Grid item md={3} xs={12}>
+              <Select 
+                value={values.profile}
+                onChange={handleChange}
+                api="/profile/all"
+                label="Usuários"
+                name="profile"
+              />
+            </Grid>
+            <Grid item md={3} xs={12}>
               <TextField
                 fullWidth
-                label="Last name"
-                name="lastName"
+                label="Prazo"
+                name="deadline"
                 onChange={handleChange}
-                required
-                value={values.lastName}
+                type="date"
+                value={values.deadline}
                 variant="outlined"
               />
             </Grid>
-            <Grid item md={6} xs={12}>
-              <TextField
-                fullWidth
-                label="Email Address"
-                name="email"
+            <Grid item md={3} xs={12}>
+              <Select 
+                value={values.category}
                 onChange={handleChange}
-                required
-                value={values.email}
-                variant="outlined"
+                api="/category/all"
+                label="Categoria"
+                name="category"
               />
             </Grid>
-            <Grid item md={6} xs={12}>
+            <Grid item md={3} xs={12}>
               <TextField
                 fullWidth
-                label="Phone Number"
-                name="phone"
+                label="Status da tarefa"
+                name="status"
                 onChange={handleChange}
-                type="number"
-                value={values.phone}
-                variant="outlined"
-              />
-            </Grid>
-            <Grid item md={6} xs={12}>
-              <TextField
-                fullWidth
-                label="Country"
-                name="country"
-                onChange={handleChange}
-                required
-                value={values.country}
-                variant="outlined"
-              />
-            </Grid>
-            <Grid item md={6} xs={12}>
-              <TextField
-                fullWidth
-                label="Select State"
-                name="state"
-                onChange={handleChange}
-                required
                 select
                 SelectProps={{ native: true }}
-                value={values.state}
+                value={values.status}
                 variant="outlined"
               >
-                {states.map((option) => (
+                {status.map((option) => (
                   <option
                     key={option.value}
                     value={option.value}
@@ -136,21 +156,42 @@ const CrudView = (props) => {
                 ))}
               </TextField>
             </Grid>
+            <Grid item md={12} xs={12}>
+              <TextField
+                fullWidth
+                label="Descrição da tarefa"
+                name="description"
+                onChange={handleChange}
+                rows={4}
+                multiline
+                value={values.description}
+                variant="outlined"
+              />
+            </Grid>
           </Grid>
         </CardContent>
         <Divider />
         <Box
           sx={{
             display: 'flex',
-            justifyContent: 'flex-end',
+            justifyContent: 'space-between',
+            width: '100%',
             p: 2
           }}
         >
           <Button
+            color="secondary"
+            variant="outlined"
+          >
+            Apagar tarefa
+          </Button>
+
+          <Button
             color="primary"
             variant="contained"
+            type="submit"
           >
-            Save details
+            Salvar tarefa
           </Button>
         </Box>
       </Card>
@@ -158,4 +199,4 @@ const CrudView = (props) => {
   );
 };
 
-export default CrudView;
+export default TaskVkew;
