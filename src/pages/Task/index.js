@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import {
   Box,
   Button,
@@ -11,11 +10,6 @@ import {
   Slider,
   Typography
 } from '@material-ui/core';
-import { useSnackbar } from 'notistack';
-
-import { useParams, useHistory } from 'react-router-dom';
-
-import {API} from 'services/api';
 import {status} from 'services/enun';
 import Select from 'components/select.component';
 import TaskHook from './hook.js';
@@ -26,93 +20,11 @@ const TaskVkew = (props) => {
     id,
     values,
     slideValue,
-    setValues,
-    setSlideValue,
     handleChange,
     handleChangeSlide,
     handleDelete,
     handleOnSubmit
   } = TaskHook();
-
-  // const history = useHistory();
-  // const { id } = useParams();
-  // const [values, setValues] = useState({
-  //   title: "",
-  //   description: "",
-  //   deadline: ""
-  // });
-  // const [slideValue, setSlideValue] = useState(0);
-  const { enqueueSnackbar } = useSnackbar();
-
-  // const handleChangeSlide = (event, newValue) => {
-  //   setSlideValue(newValue);
-  // };
-
-  // const handleChange = (event) => {
-  //   setValues({
-  //     ...values,
-  //     [event.target.name]: event.target.value
-  //   });
-  // };
-
-  // const goToList = () => {
-  //   history.push('/tasks');
-  // }
-
-  // const handleDelete = async () => {
-  //   API.delete(`/task/delete/${id}`).then(() => {
-  //     enqueueSnackbar('Tarefa apagada com sucesso', {variant: "success"});
-  //     goToList();
-  //   }).catch(() => {
-  //     enqueueSnackbar('Não foi possível apagar a tarefa', {variant: "error"});
-  //   });
-  // }
-
-  // const handleOnSubmit = (e) => {
-  //   e.preventDefault();
-
-  //   const data = {
-  //     title: values.title,
-  //     category: {
-  //       id: values.category
-  //     },
-  //     profile: {
-  //       id: values.profile
-  //     },
-  //     description: values.description,
-  //     status: values.status,
-  //     progress: slideValue,
-  //     deadline: values.deadline
-  //   }
-  //   if(!id){
-  //     API.post('/task/new', data).then((response) => {
-  //       enqueueSnackbar('Salvo com sucesso', {variant: "success"});
-  //       goToList();
-  //     }).catch((e) => {
-  //       enqueueSnackbar('Não foi possível salvar a tarefa', {variant: "error"});
-  //     });
-  //   }else{
-  //     data.id = id;
-
-  //     API.put(`/task/edit/${id}`, data).then((response) => {
-  //       enqueueSnackbar('Salvo com sucesso', {variant: "success"});
-  //       goToList();
-  //     }).catch((e) => {
-  //       enqueueSnackbar('Não foi possível salvar a tarefa', {variant: "error"});
-  //     });
-  //   }
-  // }
-
-  useEffect(() => {
-    if(id){
-      API.get(`/task/${id}`).then((response) => {
-        setValues({...response.data, category: response.data.category.id, profile: response.data.profile.login.id});
-        setSlideValue(response.data.progress);
-      }).catch((e) => {
-        enqueueSnackbar('Não foi possível encontrar a tarefa', {variant: "error"});
-      })
-    }
-  }, []);
 
   return (
     <form

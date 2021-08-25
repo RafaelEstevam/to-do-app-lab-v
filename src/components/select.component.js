@@ -5,7 +5,6 @@ import { useSnackbar } from 'notistack';
 
 const Select = ({value, onChange, api, lable, name}) => {
 
-    console.log(value);
     const [list, setList] = useState([]);
     const { enqueueSnackbar } = useSnackbar();
 

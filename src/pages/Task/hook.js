@@ -5,6 +5,7 @@ import {API} from 'services/api';
 
 const TaskHook = () => {
 
+    const { enqueueSnackbar } = useSnackbar();
     const history = useHistory();
     const { id } = useParams();
     const [values, setValues] = useState({
@@ -13,7 +14,6 @@ const TaskHook = () => {
       deadline: ""
     });
     const [slideValue, setSlideValue] = useState(0);
-    const { enqueueSnackbar } = useSnackbar();
   
     const handleChangeSlide = (event, newValue) => {
       setSlideValue(newValue);
