@@ -29,7 +29,6 @@ const TaskVkew = (props) => {
   const [slideValue, setSlideValue] = useState(0);
   const { enqueueSnackbar } = useSnackbar();
 
-
   const handleChangeSlide = (event, newValue) => {
     setSlideValue(newValue);
   };
