@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {useHistory} from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch } from 'react-redux';
 import { useSnackbar } from 'notistack';
@@ -42,9 +42,6 @@ export default function SignIn() {
   const history = useHistory();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
-
-  const handleClick = () => {
-};
 
   const handleSubmit = async () => {
     const data ={

@@ -38,6 +38,7 @@ function Routes() {
       <PrivateRoute path="/kanban" component={Kanban} />
       <PrivateRoute path="/categories" component={CategoriesList} />
       <PrivateRoute path="/tasks/new" component={Task} />
+      <PrivateRoute path="/tasks/edit/:id" component={Task} />
       <PrivateRoute path="/tasks" component={TaskList} />
       <Route path="*" component={() => <h1> 404 </h1>} />
     </Switch>

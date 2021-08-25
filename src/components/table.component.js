@@ -2,7 +2,17 @@
 import react from 'react';
 import DataTable from 'react-data-table-component';
 
-const Table = ({columns, data, title, pagination, selectableRows}) => {
+const Table = ({
+    columns,
+    data,
+    title,
+    pagination,
+    selectableRows,
+    pointerOnHover,
+    theme,
+    onRowClicked,
+    actions
+}) => {
     return (
         <DataTable
             title={title}
@@ -10,6 +20,10 @@ const Table = ({columns, data, title, pagination, selectableRows}) => {
             data={data}
             pagination={pagination}
             selectableRows={selectableRows}
+            pointerOnHover={pointerOnHover}
+            theme={theme}
+            onRowClicked={onRowClicked}
+            actions={actions}
         />
     );
 };
