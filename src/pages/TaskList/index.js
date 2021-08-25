@@ -3,7 +3,8 @@ import { useHistory } from 'react-router';
 import { useSnackbar } from 'notistack';
 import DataTable from 'components/table.component';
 import { API } from 'services/api';
-import {Button, Grid} from '@material-ui/core'
+import {Button} from '@material-ui/core';
+import ControlPointIcon from '@material-ui/icons/ControlPoint';
 
 const columns = [
     {name: 'ID', maxWidth: '60px', selector: row => row.id},
@@ -18,21 +19,21 @@ const columns = [
         selector: row => row.progress,
         conditionalCellStyles: [
             {
-                when: row => row.progress < 40,
+                when: row => row.progress <= 40,
                 style: {
                     backgroundColor: 'rgba(242, 38, 19, 0.9)',
 			        color: 'white',
                 }
             },
             {
-                when: row => row.progress > 40 && row.progress < 60,
+                when: row => row.progress > 41 && row.progress <= 80,
                 style: {
                     backgroundColor: 'rgba(248, 148, 6, 0.9)',
 			        color: 'white',
                 }
             },
             {
-                when: row => row.progress > 60 && row.progress < 90,
+                when: row => row.progress > 81 && row.progress <= 99,
                 style: {
                     backgroundColor: 'rgba(63, 195, 128, 0.9)',
 			        color: 'white',
@@ -79,7 +80,11 @@ const ListView = () => {
             pagination
             pointerOnHover
             onRowClicked={(row) => handleGoToTask(row)}
-            actions={<Button variant="contained" color="primary" onClick={e => handleGoToNew()}>Nova tarefa</Button>}
+            actions={
+                <Button startIcon={<ControlPointIcon />} variant="contained" color="primary" onClick={e => handleGoToNew()}>
+                    Nova tarefa
+                </Button>
+            }
         />
     );
 }
