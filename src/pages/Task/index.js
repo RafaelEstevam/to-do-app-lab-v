@@ -13,68 +13,117 @@ import {
 } from '@material-ui/core';
 import { useSnackbar } from 'notistack';
 
+import { useParams, useHistory } from 'react-router-dom';
+
 import {API} from 'services/api';
-
+import {status} from 'services/enun';
 import Select from 'components/select.component';
-
-const status = [
-  {label: 'Para fazer', value: 'To do'},
-  {label: 'Em progresso', value: 'In progress'},
-  {label: 'Bloqueadas', value: 'Blocked'},
-  {label: 'Concluidas', value: 'Finish'},
-]
+import TaskHook from './hook.js';
 
 const TaskVkew = (props) => {
-  const [values, setValues] = useState({});
-  const [slideValue, setSlideValue] = useState(0);
+
+  const {
+    id,
+    values,
+    slideValue,
+    setValues,
+    setSlideValue,
+    handleChange,
+    handleChangeSlide,
+    handleDelete,
+    handleOnSubmit
+  } = TaskHook();
+
+  // const history = useHistory();
+  // const { id } = useParams();
+  // const [values, setValues] = useState({
+  //   title: "",
+  //   description: "",
+  //   deadline: ""
+  // });
+  // const [slideValue, setSlideValue] = useState(0);
   const { enqueueSnackbar } = useSnackbar();
 
-  const handleChangeSlide = (event, newValue) => {
-    setSlideValue(newValue);
-  };
+  // const handleChangeSlide = (event, newValue) => {
+  //   setSlideValue(newValue);
+  // };
 
-  const handleChange = (event) => {
-    setValues({
-      ...values,
-      [event.target.name]: event.target.value
-    });
-  };
+  // const handleChange = (event) => {
+  //   setValues({
+  //     ...values,
+  //     [event.target.name]: event.target.value
+  //   });
+  // };
 
-  const handleOnSubmit = (e) => {
-    e.preventDefault();
+  // const goToList = () => {
+  //   history.push('/tasks');
+  // }
 
-    const data = {
-      title: values.title,
-      category: {
-        id: values.category
-      },
-      profile: {
-        id: values.profile
-      },
-      description: values.description,
-      status: values.status,
-      progress: slideValue,
-      deadline: values.deadline
+  // const handleDelete = async () => {
+  //   API.delete(`/task/delete/${id}`).then(() => {
+  //     enqueueSnackbar('Tarefa apagada com sucesso', {variant: "success"});
+  //     goToList();
+  //   }).catch(() => {
+  //     enqueueSnackbar('Não foi possível apagar a tarefa', {variant: "error"});
+  //   });
+  // }
+
+  // const handleOnSubmit = (e) => {
+  //   e.preventDefault();
+
+  //   const data = {
+  //     title: values.title,
+  //     category: {
+  //       id: values.category
+  //     },
+  //     profile: {
+  //       id: values.profile
+  //     },
+  //     description: values.description,
+  //     status: values.status,
+  //     progress: slideValue,
+  //     deadline: values.deadline
+  //   }
+  //   if(!id){
+  //     API.post('/task/new', data).then((response) => {
+  //       enqueueSnackbar('Salvo com sucesso', {variant: "success"});
+  //       goToList();
+  //     }).catch((e) => {
+  //       enqueueSnackbar('Não foi possível salvar a tarefa', {variant: "error"});
+  //     });
+  //   }else{
+  //     data.id = id;
+
+  //     API.put(`/task/edit/${id}`, data).then((response) => {
+  //       enqueueSnackbar('Salvo com sucesso', {variant: "success"});
+  //       goToList();
+  //     }).catch((e) => {
+  //       enqueueSnackbar('Não foi possível salvar a tarefa', {variant: "error"});
+  //     });
+  //   }
+  // }
+
+  useEffect(() => {
+    if(id){
+      API.get(`/task/${id}`).then((response) => {
+        setValues({...response.data, category: response.data.category.id, profile: response.data.profile.login.id});
+        setSlideValue(response.data.progress);
+      }).catch((e) => {
+        enqueueSnackbar('Não foi possível encontrar a tarefa', {variant: "error"});
+      })
     }
-
-    API.post('/task/new', data).then((response) => {
-      enqueueSnackbar('Salvo com sucesso', {variant: "success"});
-    }).catch((e) => {
-      enqueueSnackbar('Não foi possível fazer a consulta', {variant: "error"});
-    })
-  }
+  }, []);
 
   return (
     <form
       autoComplete="off"
-      noValidate
       onSubmit={(e) => handleOnSubmit(e)}
       {...props}
     >
       <Card>
         <CardHeader
-          title="Nova tarefa"
-          subheader="Cadastre a nova tarefa"
+          title="Tarefa"
+          subheader="Crie/edite sua tarefa"
         />
         <Divider />
         <CardContent>
@@ -87,9 +136,10 @@ const TaskVkew = (props) => {
                 fullWidth
                 label="Título"
                 name="title"
+                minRows={1}
                 onChange={handleChange}
                 required
-                value={values.title}
+                value={'' || values.title}
                 variant="outlined"
               />
             </Grid>
@@ -107,7 +157,7 @@ const TaskVkew = (props) => {
             </Grid>
             <Grid item md={3} xs={12}>
               <Select 
-                value={values.profile}
+                value={'' || values.profile}
                 onChange={handleChange}
                 api="/profile/all"
                 label="Usuários"
@@ -121,13 +171,13 @@ const TaskVkew = (props) => {
                 name="deadline"
                 onChange={handleChange}
                 type="date"
-                value={values.deadline}
+                value={'' || values.deadline}
                 variant="outlined"
               />
             </Grid>
             <Grid item md={3} xs={12}>
               <Select 
-                value={values.category}
+                value={'' || values.category}
                 onChange={handleChange}
                 api="/category/all"
                 label="Categoria"
@@ -142,9 +192,10 @@ const TaskVkew = (props) => {
                 onChange={handleChange}
                 select
                 SelectProps={{ native: true }}
-                value={values.status}
+                value={'' || values.status}
                 variant="outlined"
               >
+                <option>Selecione</option>
                 {status.map((option) => (
                   <option
                     key={option.value}
@@ -163,7 +214,7 @@ const TaskVkew = (props) => {
                 onChange={handleChange}
                 rows={4}
                 multiline
-                value={values.description}
+                value={'' || values.description}
                 variant="outlined"
               />
             </Grid>
@@ -173,17 +224,21 @@ const TaskVkew = (props) => {
         <Box
           sx={{
             display: 'flex',
-            justifyContent: 'space-between',
+            justifyContent: id ? 'space-between' : 'flex-end',
             width: '100%',
             p: 2
           }}
         >
-          <Button
-            color="secondary"
-            variant="outlined"
-          >
-            Apagar tarefa
-          </Button>
+          {id && (
+            <Button
+              color="secondary"
+              variant="outlined"
+              onClick={() => handleDelete()}
+            >
+              Apagar tarefa
+            </Button>
+          )}
+          
 
           <Button
             color="primary"
