@@ -18,4 +18,16 @@ export default createGlobalStyle`
     
   }
 
+  ::-webkit-scrollbar-track {
+    background-color: #f5f5f5;
+  }
+  ::-webkit-scrollbar {
+    width: 5px;
+    background-color: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: #aaa;
+    border: 2px solid transparent;
+  }
+
 `;

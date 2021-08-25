@@ -15,7 +15,7 @@ const TaskHook = () => {
     const [values, setValues] = useState({
       title: "",
       description: "",
-      deadline: "",
+      deadline: "01/01/1950",
       status: status || "",
       category: null,
       profile: null,
@@ -62,8 +62,6 @@ const TaskHook = () => {
         progress: slideValue,
         deadline: values.deadline
       }
-
-      console.log(data);
 
       if(!id){
         API.post('/task/new', data).then((response) => {

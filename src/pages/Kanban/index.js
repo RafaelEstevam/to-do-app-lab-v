@@ -9,18 +9,18 @@ const Kanban = () => {
     const decode = useSelector(state => state.decode);
 
     return (
-        <Grid container spacing={3}>
+        <Grid container spacing={3} style={{height: 'calc(100vh - 90px)'}}>
             <Grid item xs={12} md={3}>
-                <TaskColumn title="To do" status="To do" />
+                <TaskColumn title="Para fazer" status="To do" style={{height: '100%'}} />
             </Grid>
             <Grid item xs={12} md={3}>
-                <TaskColumn title="In progress" status="In progress" />
+                <TaskColumn title="Iniciadas" status="In progress" style={{height: '100%'}} />
             </Grid>
             <Grid item xs={12} md={3}>
-                <TaskColumn title="Blocked" status="Blocked" />
+                <TaskColumn title="Bloqueadas" status="Blocked" style={{height: '100%'}} />
             </Grid>
             <Grid item xs={12} md={3}>
-                <TaskColumn title="Finish" status="Finished" />
+                <TaskColumn title="Finalizadas" status="Finished" style={{height: '100%'}} />
             </Grid>
         </Grid>
     )

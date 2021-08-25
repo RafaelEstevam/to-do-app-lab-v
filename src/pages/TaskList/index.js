@@ -4,6 +4,7 @@ import { useSnackbar } from 'notistack';
 import { useDispatch } from 'react-redux';
 import { API } from 'services/api';
 import {Button, Card} from '@material-ui/core';
+import {COLORS} from 'styles/colors';
 
 import DataTable from 'components/table.component';
 import ControlPointIcon from '@material-ui/icons/ControlPoint';
@@ -23,28 +24,28 @@ const columns = [
             {
                 when: row => row.progress <= 40,
                 style: {
-                    backgroundColor: 'rgba(242, 38, 19, 0.9)',
+                    backgroundColor: COLORS.danger,
 			        color: 'white',
                 }
             },
             {
                 when: row => row.progress > 41 && row.progress <= 80,
                 style: {
-                    backgroundColor: 'rgba(248, 148, 6, 0.9)',
+                    backgroundColor: COLORS.warning,
 			        color: 'white',
                 }
             },
             {
                 when: row => row.progress > 81 && row.progress <= 99,
                 style: {
-                    backgroundColor: 'rgba(63, 195, 128, 0.9)',
+                    backgroundColor: COLORS.success,
 			        color: 'white',
                 }
             },
             {
                 when: row => row.progress === 100,
                 style: {
-                    backgroundColor: '#8137f7e6',
+                    backgroundColor: COLORS.info,
 			        color: 'white',
                 }
             }

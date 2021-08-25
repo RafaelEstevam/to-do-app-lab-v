@@ -1,45 +1,74 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { useHistory } from 'react-router';
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
+import Tooltip from '@material-ui/core/Tooltip';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import {COLORS} from 'styles/colors'
+
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+
+import styled from 'styled-components';
 
 const useStyles = makeStyles({
-  bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)',
-  },
   title: {
     fontSize: 14,
   },
   pos: {
-    marginBottom: 12,
+    marginBottom: 0,
+    marginLeft: 5
   },
   root:{
     marginBottom: 15
+  },
+  icon:{
+    color: "#666"
   }
 });
+
+const CustomCard = styled(Card)`
+  border-left: 6px solid #666;
+  border-color:${props => props.status === "To do" ? COLORS.primary : props.status === "In progress" ? COLORS.warning : props.status === "Blocked" ? COLORS.danger : COLORS.info} ;
+  :hover{
+    cursor: pointer;
+    box-shadow: 0px 4px 10px #0002
+  }
+`
 
 export default function TaskCard({task}) {
 
   const classes = useStyles();
+  const history = useHistory();
+
+  const handleGoToTask = () => {
+    history.push(`/tasks/edit/${task.id}`)
+  }
 
   return (
-    <Card className={classes.root}>
-      <CardContent>
-        <Typography className={classes.title} color="textSecondary" gutterBottom>
-          {task.deadline}
-        </Typography>
-        <Typography variant="h6" component="h2">
-          {task.title}
-        </Typography>
-        <Typography className={classes.pos} color="textSecondary">
-          {task.status}
-        </Typography>
-      </CardContent>
-    </Card>
+    <Tooltip title="Editar tarefa">
+      <CustomCard status={task.status} className={classes.root} onClick={() => handleGoToTask()}>
+        <CardContent>
+          {task.deadline && (
+            <Typography className={classes.title} color="textSecondary" gutterBottom>
+              {task.deadline}
+            </Typography>
+          )}
+          <Typography variant="h6" component="h2">
+            {task.title}
+          </Typography>
+          {task?.profile && (
+            <div style={{display: 'flex', alignItems: 'center'}}>
+              <AccountCircleIcon className={classes.icon}/>
+              <Typography className={classes.pos} color="textSecondary">
+                {task?.profile?.login?.email}
+              </Typography>
+            </div>
+          )}
+        </CardContent>
+      </CustomCard>
+    </Tooltip>
+
   );
 }

@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import { useHistory } from 'react-router';
 import { useSnackbar } from 'notistack';
 import { useDispatch } from 'react-redux';
-import {Card, CardContent, CardHeader, Tooltip, IconButton} from '@material-ui/core';
+import {Card, CardContent, CardHeader, Tooltip, IconButton, Paper} from '@material-ui/core';
 import TaskCard from './task.card.component';
 import {API} from 'services/api';
 
@@ -30,7 +30,7 @@ export default function TaskColumn({title, subheader = 'Total: ', status}) {
   }, [])
 
   return (
-    <Card style={{height: "80%"}}>
+    <Card style={{height: "100%", maxHeight: '580px'}}>
         <CardHeader
           title={title}
           subheader={`${subheader} ${list.length}`}
@@ -42,7 +42,7 @@ export default function TaskColumn({title, subheader = 'Total: ', status}) {
             </Tooltip>
         }
         />
-        <CardContent style={{maxHeight: '80%', overflowX: 'hidden', overFlowY: 'auto'}}>
+        <CardContent style={{maxHeight: '100%', overflowX: 'hidden', overFlowY: 'auto', paddingBottom: '85px'}}>
           {list?.map((item) => (
             <TaskCard key={item.id} task={item} />
           ))}
