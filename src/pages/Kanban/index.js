@@ -11,16 +11,16 @@ const Kanban = () => {
     return (
         <Grid container spacing={3}>
             <Grid item xs={12} md={3}>
-                <TaskColumn title="To do" status="To do" subheader="Total: " />
+                <TaskColumn title="To do" status="To do" />
             </Grid>
             <Grid item xs={12} md={3}>
-                <TaskColumn title="In progress" status="In progress" subheader="Total: " />
+                <TaskColumn title="In progress" status="In progress" />
             </Grid>
             <Grid item xs={12} md={3}>
-                <TaskColumn title="Blocked" status="Blocked" subheader="Total: " />
+                <TaskColumn title="Blocked" status="Blocked" />
             </Grid>
             <Grid item xs={12} md={3}>
-                <TaskColumn title="Finish" status="Finished" subheader="Total: " />
+                <TaskColumn title="Finish" status="Finished" />
             </Grid>
         </Grid>
     )

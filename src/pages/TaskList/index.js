@@ -1,22 +1,24 @@
 import react, {useEffect, useState, useMemo} from 'react';
 import { useHistory } from 'react-router';
 import { useSnackbar } from 'notistack';
-import DataTable from 'components/table.component';
+import { useDispatch } from 'react-redux';
 import { API } from 'services/api';
 import {Button, Card} from '@material-ui/core';
+
+import DataTable from 'components/table.component';
 import ControlPointIcon from '@material-ui/icons/ControlPoint';
 
 const columns = [
     {name: 'ID', maxWidth: '60px', selector: row => row.id},
-    {name: 'Categoria', selector: row => row.category.name},
-    {name: 'Usuário', selector: row => row.profile.login.email},
+    {name: 'Categoria', selector: row => row?.category?.name},
+    {name: 'Usuário', selector: row => row?.profile?.login?.email},
     {name: 'Título', selector: row => row.title},
     {name: 'Descrição', wrap: true, selector: row => row.description},
     {name: 'Status', selector: row => row.status},
     {
         name: 'Progresso',
         maxWidth: '60px',
-        selector: row => row.progress,
+        selector: row => (<>{row.progress} %</>),
         conditionalCellStyles: [
             {
                 when: row => row.progress <= 40,
@@ -53,6 +55,7 @@ const columns = [
 
 const ListView = () => {
     const history = useHistory();
+    const dispatch = useDispatch();
     const { enqueueSnackbar } = useSnackbar();
     const [data, setData] = useState([]);
 
@@ -61,6 +64,7 @@ const ListView = () => {
     };
 
     const handleGoToNew = () => {
+        dispatch({type: 'ADD_TASK', status: ""});
         history.push(`tasks/new`);
     };
 

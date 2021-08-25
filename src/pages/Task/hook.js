@@ -1,17 +1,24 @@
 import { useState, useEffect } from 'react';
 import { useSnackbar } from 'notistack';
 import { useParams, useHistory } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+
 import {API} from 'services/api';
 
 const TaskHook = () => {
 
     const { enqueueSnackbar } = useSnackbar();
+    const status = useSelector(state => state.task.status);
+
     const history = useHistory();
     const { id } = useParams();
     const [values, setValues] = useState({
       title: "",
       description: "",
-      deadline: ""
+      deadline: "",
+      status: status || "",
+      category: null,
+      profile: null,
     });
     const [slideValue, setSlideValue] = useState(0);
   
@@ -44,17 +51,20 @@ const TaskHook = () => {
   
       const data = {
         title: values.title,
-        category: {
+        category: values.category ? {
           id: values.category
-        },
-        profile: {
+        } : null,
+        profile: values.profile ? {
           id: values.profile
-        },
+        } : null,
         description: values.description,
         status: values.status,
         progress: slideValue,
         deadline: values.deadline
       }
+
+      console.log(data);
+
       if(!id){
         API.post('/task/new', data).then((response) => {
           enqueueSnackbar('Salvo com sucesso', {variant: "success"});
@@ -77,7 +87,7 @@ const TaskHook = () => {
     useEffect(() => {
       if(id){
         API.get(`/task/${id}`).then((response) => {
-          setValues({...response.data, category: response.data.category.id, profile: response.data.profile.login.id});
+          setValues({...response.data, category: response.data?.category?.id, profile: response.data?.profile?.login?.id});
           setSlideValue(response.data.progress);
         }).catch((e) => {
           enqueueSnackbar('Não foi possível encontrar a tarefa', {variant: "error"});

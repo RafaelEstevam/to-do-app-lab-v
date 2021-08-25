@@ -2,6 +2,8 @@ import { createStore, combineReducers } from 'redux';
 
 const token = "";
 
+const task = {};
+
 const decode = {
     email: localStorage.getItem("username"),
     permission: localStorage.getItem("permission")
@@ -51,32 +53,43 @@ function taskListReducer(state = taskList, action){
     }
 }
 
-function tasksReducer(state = tasks, action){
-
-    const count = action.count;
-
+function taskReducer(state = task, action){
+    const status = action.status
     switch (action.type){
-
         case 'ADD_TASK':
-            state = {...state, totalTasks: count};
-            return state;
-        case 'TODO_TASK':
-            state = {...state, toDoTasks: count};
-            return state;
-        case 'DOING_TASK':
-            state = {...state, totalTasks: count};
-            return state;
-        case 'FINISH_TASK':
-            state = {...state, totalTasks: count};
+            state = {...state, status: status};
             return state;
         default:
             return state;
     }
 }
 
+// function tasksReducer(state = tasks, action){
+
+//     const count = action.count;
+
+//     switch (action.type){
+
+//         case 'ADD_TASK':
+//             state = {...state, totalTasks: count};
+//             return state;
+//         case 'TODO_TASK':
+//             state = {...state, toDoTasks: count};
+//             return state;
+//         case 'DOING_TASK':
+//             state = {...state, totalTasks: count};
+//             return state;
+//         case 'FINISH_TASK':
+//             state = {...state, totalTasks: count};
+//             return state;
+//         default:
+//             return state;
+//     }
+// }
+
 export default createStore(combineReducers({
     decode: decodeReducer,
     token: setTokenReducer,
-    task: tasksReducer,
+    task: taskReducer,
     taskList: taskListReducer
 }));

@@ -1,14 +1,24 @@
 import React, {useEffect, useState} from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { useHistory } from 'react-router';
 import { useSnackbar } from 'notistack';
-import {Card, CardContent, CardHeader, Button, Typography} from '@material-ui/core';
+import { useDispatch } from 'react-redux';
+import {Card, CardContent, CardHeader, Tooltip, IconButton} from '@material-ui/core';
 import TaskCard from './task.card.component';
-import {API} from 'services/api'
+import {API} from 'services/api';
 
-export default function TaskColumn({title, subheader, status}) {
+import ControlPointIcon from '@material-ui/icons/ControlPoint';
 
+export default function TaskColumn({title, subheader = 'Total: ', status}) {
+
+  const history = useHistory();
+  const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
   const [list, setList] = useState([]);
+
+  const handleNewTask = () => {
+    dispatch({type: 'ADD_TASK', status: status});
+    history.push("/tasks/new");
+  }
 
   useEffect(() => {
     API.get(`/task/status/${status}`).then((response) => {
@@ -20,12 +30,19 @@ export default function TaskColumn({title, subheader, status}) {
   }, [])
 
   return (
-    <Card>
+    <Card style={{height: "80%"}}>
         <CardHeader
-            title={title}
-            subheader={subheader}
+          title={title}
+          subheader={`${subheader} ${list.length}`}
+          action={
+            <Tooltip title="Cadastrar nova tarefa">
+                <IconButton aria-label="settings" variant="outlined" color="primary" onClick={() => handleNewTask()}>
+                    <ControlPointIcon />
+                </IconButton>
+            </Tooltip>
+        }
         />
-        <CardContent>
+        <CardContent style={{maxHeight: '80%', overflowX: 'hidden', overFlowY: 'auto'}}>
           {list?.map((item) => (
             <TaskCard key={item.id} task={item} />
           ))}
