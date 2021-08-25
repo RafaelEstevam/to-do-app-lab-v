@@ -1,7 +1,7 @@
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
-import {getTokenInStorage} from 'services/api'
+import {getTokenInStorage, decodeToken} from 'services/api'
 
 import Dashboard from './pages/Dashboard'
 import Login from './pages/Login'
@@ -11,7 +11,26 @@ import TaskList from './pages/TaskList'
 import CategoriesList from './pages/CategoriesList'
 import DefaultLayout from './templates/default'
 
-const PrivateRoute = ({ component: Component, ...attrs }) => {
+const AdminRoutes = ({ component: Component, auth,  ...attrs }) => {
+
+  const token = getTokenInStorage();
+  const permission = decodeToken(token).permission === auth;
+
+  return token && permission ? (
+    <Route
+      {...attrs}
+      render={(props) => (
+        <DefaultLayout>
+          <Component {...props} />
+        </DefaultLayout>
+      )}
+    />
+  ) : (
+    <Redirect to="/404" />
+  )
+}
+
+const PrivateRoute = ({ component: Component, auth,  ...attrs }) => {
 
   const token = getTokenInStorage();
 
@@ -23,8 +42,7 @@ const PrivateRoute = ({ component: Component, ...attrs }) => {
           <Component {...props} />
         </DefaultLayout>
       )}
-    >
-    </Route>
+    />
   ) : (
     <Redirect to="/404" />
   )
@@ -37,6 +55,9 @@ function Routes() {
       <PrivateRoute path="/dashboard" component={Dashboard} />
       <PrivateRoute path="/kanban" component={Kanban} />
       <PrivateRoute path="/categories" component={CategoriesList} />
+      <AdminRoutes path="/users" auth="ROLE_ADMIN" component={TaskList} />
+      <AdminRoutes path="/users/new" auth="ROLE_ADMIN" component={Task} />
+      <PrivateRoute path="/users/edit/:id" component={Task} />
       <PrivateRoute path="/tasks/new" component={Task} />
       <PrivateRoute path="/tasks/edit/:id" component={Task} />
       <PrivateRoute path="/tasks" component={TaskList} />

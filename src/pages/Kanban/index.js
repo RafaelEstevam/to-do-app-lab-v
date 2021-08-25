@@ -9,9 +9,6 @@ const Kanban = () => {
     const token = useSelector(state => state.token);
     const decode = useSelector(state => state.decode);
 
-    console.log(decode);
-    // console.log(decodeToken(token));
-
     return (
         <Grid container spacing={3}>
             <Grid item xs={12} md={3}>

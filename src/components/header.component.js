@@ -1,7 +1,9 @@
 import react from 'react';
 import {useHistory, Link, Redirect} from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import clsx from 'clsx';
 import { useTheme } from '@material-ui/core/styles';
+
 import Button from '@material-ui/core/Button';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
@@ -31,6 +33,8 @@ const Header = ({open, handleDrawerOpen, handleDrawerClose}) => {
   const history = useHistory();
   const classes = HeaderStyle();
   const theme = useTheme();
+
+  const decode = useSelector(state => state.decode);
 
   const handleLogout = () => {
     resetStorage()
@@ -106,12 +110,14 @@ const Header = ({open, handleDrawerOpen, handleDrawerClose}) => {
           </ListItemIcon>
           <ListItemText primary={"Categorias"} />
         </ListItem>
-        <ListItem button onClick={() => {history.push("/categories")}}>
-          <ListItemIcon>
-            <GroupIcon />
-          </ListItemIcon>
-          <ListItemText primary={"Usuários"} />
-        </ListItem>
+        {decode.permission === "ROLE_ADMIN" && (
+          <ListItem button onClick={() => {history.push("/users")}}>
+            <ListItemIcon>
+              <GroupIcon />
+            </ListItemIcon>
+            <ListItemText primary={"Usuários"} />
+          </ListItem>
+        )}
       </List>
       <Divider />
     </Drawer>

@@ -3,8 +3,8 @@ import { createStore, combineReducers } from 'redux';
 const token = "";
 
 const decode = {
-    email: "",
-    permission: ""
+    email: localStorage.getItem("username"),
+    permission: localStorage.getItem("permission")
 }
 
 const tasks = {
