@@ -8,6 +8,7 @@ import Login from './pages/Login'
 import Kanban from './pages/Kanban'
 import Task from './pages/Task'
 import TaskList from './pages/TaskList'
+import UserList from './pages/UserList'
 import CategoriesList from './pages/CategoriesList'
 import DefaultLayout from './templates/default'
 
@@ -55,7 +56,7 @@ function Routes() {
       <PrivateRoute path="/dashboard" component={Dashboard} />
       <PrivateRoute path="/kanban" component={Kanban} />
       <PrivateRoute path="/categories" component={CategoriesList} />
-      <AdminRoutes path="/users" auth="ROLE_ADMIN" component={TaskList} />
+      <AdminRoutes path="/users" auth="ROLE_ADMIN" component={UserList} />
       <AdminRoutes path="/users/new" auth="ROLE_ADMIN" component={Task} />
       <PrivateRoute path="/users/edit/:id" component={Task} />
       <PrivateRoute path="/tasks/new" component={Task} />

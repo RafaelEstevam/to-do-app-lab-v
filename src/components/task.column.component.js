@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { useHistory } from 'react-router';
 import { useSnackbar } from 'notistack';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import {Card, CardContent, CardHeader, Tooltip, IconButton, Paper} from '@material-ui/core';
 import TaskCard from './task.card.component';
 import {API} from 'services/api';
@@ -14,6 +14,7 @@ export default function TaskColumn({title, subheader = 'Total: ', status}) {
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
   const [list, setList] = useState([]);
+  const [token] = useState(useSelector(state => state.token));
 
   const handleNewTask = () => {
     dispatch({type: 'ADD_TASK', status: status});
@@ -23,11 +24,10 @@ export default function TaskColumn({title, subheader = 'Total: ', status}) {
   useEffect(() => {
     API.get(`/task/status/${status}`).then((response) => {
       setList(response.data);
-      console.log(response)
     }).catch(() => {
       enqueueSnackbar(`Não foi possível listar as tarefas em ${title}`, {variant: "error"});
     })
-  }, [])
+  }, []);
 
   return (
     <Card style={{height: "100%", maxHeight: '580px'}}>

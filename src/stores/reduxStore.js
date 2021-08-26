@@ -1,6 +1,6 @@
 import { createStore, combineReducers } from 'redux';
 
-const token = "";
+const token = localStorage.getItem("token");
 
 const task = {};
 

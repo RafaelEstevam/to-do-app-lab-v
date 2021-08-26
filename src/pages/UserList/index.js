@@ -1,28 +1,29 @@
-import DataTable from 'components/table.component';
-
+import react, {useEffect, useState, useMemo} from 'react';
 import {
-    Box,
     Button,
-    Grid,
-    IconButton,
-    CardContent,
     Card,
+    Grid,
     CardHeader,
+    Tooltip,
+    IconButton,
     Divider,
+    CardContent,
     TextField,
-    Tooltip
+    Box
 } from '@material-ui/core';
 
-import ControlPointIcon from '@material-ui/icons/ControlPoint';
+import UserListHook from './hook';
 
-import CategoriesListHook from './hook';
+import DataTable from 'components/table.component';
+import ControlPointIcon from '@material-ui/icons/ControlPoint';
 
 const columns = [
     {name: 'ID', maxWidth: '60px', selector: row => row.id},
-    {name: 'Categoria', selector: row => row.name},
+    {name: 'Login', selector: row => row?.email}
 ];
 
 const ListView = (props) => {
+    
     const {
         data,
         handleChange,
@@ -31,7 +32,7 @@ const ListView = (props) => {
         handleOnSubmit,
         setValues,
         values
-    } = CategoriesListHook();
+    } = UserListHook();
 
     return (
         <Grid container spacing={3}>
@@ -43,12 +44,12 @@ const ListView = (props) => {
                 >
                     <Card>
                         <CardHeader
-                            title="Categorias"
-                            subheader="Crie/edite sua categoria"
+                            title="Login"
+                            subheader="Crie/edite login"
                             style={{alignItems: 'center'}}
                             action={
-                                <Tooltip title="Cadastrar nova categoria">
-                                    <IconButton aria-label="settings" variant="outlined" color="primary" onClick={() => setValues({name: ""})}>
+                                <Tooltip title="Cadastrar novo login">
+                                    <IconButton aria-label="settings" variant="outlined" color="primary" onClick={() => setValues({email: "", password: ""})}>
                                         <ControlPointIcon />
                                     </IconButton>
                                 </Tooltip>
@@ -57,20 +58,30 @@ const ListView = (props) => {
                         <Divider />
                         <CardContent>
                             <Grid container spacing={3}>
-                            <Grid item md={12} xs={12}>
-                                <TextField
-                                    fullWidth
-                                    label="Nome da categoria"
-                                    name="name"
-                                    minRows={1}
-                                    onChange={handleChange}
-                                    required
-                                    helperText="O nome deve ser diferente de outra categoria"
-                                    value={'' || values.name}
-                                    variant="outlined"
-                                />
+                                <Grid item md={12} xs={12}>
+                                    <TextField
+                                        fullWidth
+                                        label="E-mail"
+                                        name="email"
+                                        minRows={1}
+                                        onChange={handleChange}
+                                        required
+                                        value={'' || values.email}
+                                        variant="outlined"
+                                    />
+                                </Grid>
+                                <Grid item md={12} xs={12}>
+                                    <TextField
+                                        fullWidth
+                                        label="Senha"
+                                        name="password"
+                                        type="password"
+                                        onChange={handleChange}
+                                        value={'' || values.password}
+                                        variant="outlined"
+                                    />
+                                </Grid>
                             </Grid>
-                        </Grid>
                         </CardContent>
                         <Divider />
                         <Box
@@ -87,7 +98,7 @@ const ListView = (props) => {
                                     variant="outlined"
                                     onClick={() => handleDelete()}
                                 >
-                                    Apagar categoria
+                                    Apagar login
                                 </Button>
                             )}
 
@@ -96,7 +107,7 @@ const ListView = (props) => {
                                 variant="contained"
                                 type="submit"
                             >
-                                Salvar categoria
+                                Salvar login
                             </Button>
                         </Box>
                     </Card>
@@ -107,7 +118,7 @@ const ListView = (props) => {
                     <DataTable
                         columns={columns}
                         data={data}
-                        title="Lista de categorias"
+                        title="Lista de logins"
                         pagination
                         pointerOnHover
                         onRowClicked={(row) => handleLoad(row)}
