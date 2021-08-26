@@ -26,8 +26,6 @@ const TaskVkew = (props) => {
     handleOnSubmit
   } = TaskHook();
 
-  //TODO Convert date to string 
-
   return (
     <form
       autoComplete="off"
@@ -77,13 +75,22 @@ const TaskVkew = (props) => {
                 onChange={handleChange}
                 value={'' || values.gender}
                 variant="outlined"
-              />
+                select
+                SelectProps={{ native: true }}
+              >
+                <option>Selecione</option>
+                <option value="M">Masculino</option>
+                <option value="F">Feminino</option>
+                <option value="O">Outros</option>
+                <option value="N">Não informar</option>
+              </TextField>
             </Grid>
             <Grid item md={3} xs={12}>
               <TextField
                 fullWidth
                 label="Aniversário"
                 name="birthday"
+                type="date"
                 onChange={handleChange}
                 value={'' || values.birthday}
                 variant="outlined"

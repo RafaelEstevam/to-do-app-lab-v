@@ -15,7 +15,14 @@ const TaskHook = () => {
     const [profileId, setProfileId] = useState("");
 
     const history = useHistory();
-    const [values, setValues] = useState({});
+    const [values, setValues] = useState({
+      name: "",
+      doc: "",
+      gender: "",
+      birthday: "",
+      phone: "",
+      mobile: "",
+    });
     const [slideValue, setSlideValue] = useState(0);
   
     const handleChangeSlide = (event, newValue) => {
@@ -47,6 +54,7 @@ const TaskHook = () => {
       // values.login ;
       values.login = {};
       values.login.id = loginId;
+      values.birthday = new Date(values.birthday)
 
       if(!profileId){
         API.post('/profile/new', values).then((response) => {
@@ -74,6 +82,20 @@ const TaskHook = () => {
         })
       }
     }, []);
+
+    useEffect(() => {
+      if(loginId){
+        API.get(`/login/profile/${loginId}`).then((response) => {
+
+          const data = response.data;
+          data.birthday = moment(new Date(response.data?.birthday)).format('YYYY-MM-DD')
+
+          setValues(data)
+        }).catch((e) => {
+          enqueueSnackbar('Perfil não encontrado', {variant: "error"});
+        })
+      }
+    }, [loginId])
 
     return {
         history,
