@@ -1,12 +1,13 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router';
+import {COLORS} from 'styles/colors';
+import Moment from 'react-moment';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Tooltip from '@material-ui/core/Tooltip';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import {COLORS} from 'styles/colors'
+
 
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
@@ -52,12 +53,13 @@ export default function TaskCard({task}) {
         <CardContent>
           {task.deadline && (
             <Typography className={classes.title} color="textSecondary" gutterBottom>
-              {task.deadline}
+              <Moment date={new Date(task.deadline)} format="DD/MM/YYYY" />
             </Typography>
           )}
           <Typography variant="h6" component="h2">
             {task.title}
           </Typography>
+          <br/>
           {task?.profile && (
             <div style={{display: 'flex', alignItems: 'center'}}>
               <AccountCircleIcon className={classes.icon}/>

@@ -118,6 +118,12 @@ const Header = ({open, handleDrawerOpen, handleDrawerClose}) => {
             <ListItemText primary={"Usuários"} />
           </ListItem>
         )}
+        <ListItem button onClick={() => {history.push(`/profile/edit`)}}>
+          <ListItemIcon>
+            <GroupIcon />
+          </ListItemIcon>
+          <ListItemText primary={"Perfil de usuário"} />
+        </ListItem>
       </List>
       <Divider />
     </Drawer>

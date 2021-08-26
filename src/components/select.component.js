@@ -3,7 +3,7 @@ import {API} from 'services/api';
 import {TextField} from '@material-ui/core';
 import { useSnackbar } from 'notistack';
 
-const Select = ({value, onChange, api, label, name}) => {
+const Select = ({value, onChange, api, label, name, required}) => {
 
     const [list, setList] = useState([]);
     const { enqueueSnackbar } = useSnackbar();
@@ -22,7 +22,7 @@ const Select = ({value, onChange, api, label, name}) => {
             label={label}
             name={name}
             onChange={onChange}
-            required
+            required={required}
             select
             SelectProps={{ native: true }}
             value={value}

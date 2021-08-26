@@ -3,6 +3,8 @@ import { useSnackbar } from 'notistack';
 import { useParams, useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
+import moment from 'moment';
+
 import {API} from 'services/api';
 
 const TaskHook = () => {
@@ -15,7 +17,7 @@ const TaskHook = () => {
     const [values, setValues] = useState({
       title: "",
       description: "",
-      deadline: "01/01/1950",
+      deadline: "1950-01-01",
       status: status || "",
       category: null,
       profile: null,
@@ -85,8 +87,18 @@ const TaskHook = () => {
     useEffect(() => {
       if(id){
         API.get(`/task/${id}`).then((response) => {
-          setValues({...response.data, category: response.data?.category?.id, profile: response.data?.profile?.login?.id});
+
+          const data = response.data;
+          data.deadline = moment(new Date(response.data?.deadline)).format('YYYY-MM-DD')
+
+          setValues(
+            {...data, 
+              category: response.data?.category?.id,
+              profile: response.data?.profile?.login?.id
+            });
+
           setSlideValue(response.data.progress);
+
         }).catch((e) => {
           enqueueSnackbar('Não foi possível encontrar a tarefa', {variant: "error"});
         })

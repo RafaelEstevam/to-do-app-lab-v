@@ -7,6 +7,7 @@ import Dashboard from './pages/Dashboard'
 import Login from './pages/Login'
 import Kanban from './pages/Kanban'
 import Task from './pages/Task'
+import Profile from './pages/Profile'
 import TaskList from './pages/TaskList'
 import UserList from './pages/UserList'
 import CategoriesList from './pages/CategoriesList'
@@ -61,6 +62,7 @@ function Routes() {
       <PrivateRoute path="/users/edit/:id" component={Task} />
       <PrivateRoute path="/tasks/new" component={Task} />
       <PrivateRoute path="/tasks/edit/:id" component={Task} />
+      <PrivateRoute path="/profile/edit" component={Profile} />
       <PrivateRoute path="/tasks" component={TaskList} />
       <Route path="*" component={() => <h1> 404 </h1>} />
     </Switch>
